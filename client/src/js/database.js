@@ -18,32 +18,29 @@ const initdb = async () => {
 
 // TODO: Add logic to a method that accepts some content and adds it to the database
 export const putDb = async (content) => {
-  try {
-    const jateDb = await openDB(DB_NAME, 1);
-    const tx = jateDb.transaction(STORE_NAME, 'readwrite');
-    const store = tx.objectStore(STORE_NAME);
-    await store.put({ value: content });
-    await tx.done;
-    console.log('Text entry has been saved to the database!');
-  } catch (error) {
-    console.error('Error putting data into database:', error);
-  }
+  console.log('Added to Database');
+  const txDb = await openDB("jate", 1);
+  const Txt = txDb.transaction("jate", "readwrite");
+  const Storage = Txt.objectStore("jate");
+  const rqt = Storage.put({
+    id: 1,
+    value: content,
+  });
+  const rst = await rqt;
+  console.log("data saved to Db", rst);
 };
 
 // TODO: Add logic for a method that gets all the content from the database
 export const getDb = async () => {
-  try {
-    const jateDb = await openDB(DB_NAME, 1);
-    const tx = jateDb.transaction(STORE_NAME, 'readonly');
-    const store = tx.objectStore(STORE_NAME);
-    const result = await store.getAll();
-    console.log('Text has been retrieved from the database.');
-    return result;
-  } catch (error) {
-    console.error('Error getting data from database:', error);
-    return null;
-  }
-};
+  console.log("Get all content from database");
+  const txDb = await openDB("jate", 1);
+  const Txt = txDb.transaction("jate", "readonly");
+  const Storage = Txt.objectStore("jate");
+  const rqt = Storage.get(1);
+  const rst = await rqt;
+  console.log("rst.value", rst);
+  return rst?.value;
+}
 
 initdb();
 
