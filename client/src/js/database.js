@@ -26,7 +26,7 @@ export const putDb = async (content) => {
   try {
     const txDb = await openDB('jate', 1);
     const txt = txDb.transaction('jate', 'readwrite');
-    const Storage = txt.objectStore('jate');
+    const store = txt.objectStore('jate');
     const result = await store.put({ value: content });
     console.log('Content saved to database:', result);
     return result;
